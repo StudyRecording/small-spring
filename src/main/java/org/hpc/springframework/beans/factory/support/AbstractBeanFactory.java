@@ -16,10 +16,10 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
     protected abstract BeanDefinition getBeanDefinition(String beanName);
 
-    protected abstract Object createBean(String beanName, BeanDefinition beanDefinition);
+    protected abstract Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args);
 
     @Override
-    public Object getBean(String name) {
+    public Object getBean(String name, Object... args) {
         // 从缓存中获取
         Object bean = getSingleton(name);
         if (bean != null) {
@@ -28,7 +28,11 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
 
         // 创建并获取
         BeanDefinition beanDefinition = getBeanDefinition(name);
-        return createBean(name, beanDefinition);
+        return createBean(name, beanDefinition, args);
+    }
 
+    @Override
+    public Object getBean(String name) {
+        return getBean(name, (Object) null);
     }
 }
