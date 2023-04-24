@@ -1,7 +1,11 @@
 package org.hpc.springframework.beans.factory.support;
 
+import cn.hutool.core.bean.BeanUtil;
 import org.hpc.springframework.beans.BeanException;
+import org.hpc.springframework.beans.factory.PropertyValue;
+import org.hpc.springframework.beans.factory.PropertyValues;
 import org.hpc.springframework.beans.factory.config.BeanDefinition;
+import org.hpc.springframework.beans.factory.config.BeanReference;
 
 import java.lang.reflect.Constructor;
 
@@ -23,6 +27,9 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
         try {
             bean = createBeanInstance(beanDefinition, beanName, args);
+
+            // 属性填充
+            applyPropertyValues(beanName, bean, beanDefinition);
         } catch (Exception e) {
             throw new BeanException("实例化Bean失败", e);
         }
@@ -46,6 +53,24 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
         return getInstantiationStrategy().instantiate(beanDefinition, beanName, constructor, args);
 
+    }
+
+    /**
+     * @author hpc
+     * @description bean对象属性填充
+     **/
+    protected void applyPropertyValues(String beanName, Object bean, BeanDefinition beanDefinition) {
+        PropertyValues propertyValues = beanDefinition.getPropertyValues();
+        for (PropertyValue propertyValue : propertyValues.getPropertyValues()) {
+            String name = propertyValue.getName();
+            Object value = propertyValue.getValue();
+            if (value instanceof BeanReference) {
+                BeanReference beanReference = (BeanReference) value;
+                value = getBean(beanReference.getBeanName());
+
+            }
+            BeanUtil.setFieldValue(bean, name, value);
+        }
     }
 
 
