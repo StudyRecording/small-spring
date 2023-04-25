@@ -1,4 +1,4 @@
-package org.hpc.springframework.beans.factory;
+package org.hpc.springframework.beans;
 
 /**
  * @program: small-spring

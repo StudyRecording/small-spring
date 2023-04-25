@@ -2,8 +2,8 @@ package org.hpc.springframework.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
 import org.hpc.springframework.beans.BeanException;
-import org.hpc.springframework.beans.factory.PropertyValue;
-import org.hpc.springframework.beans.factory.PropertyValues;
+import org.hpc.springframework.beans.PropertyValue;
+import org.hpc.springframework.beans.PropertyValues;
 import org.hpc.springframework.beans.factory.config.BeanDefinition;
 import org.hpc.springframework.beans.factory.config.BeanReference;
 

@@ -1,6 +1,6 @@
 package org.hpc.springframework.beans.factory.config;
 
-import org.hpc.springframework.beans.factory.PropertyValues;
+import org.hpc.springframework.beans.PropertyValues;
 
 /**
  * Bean对象定义
